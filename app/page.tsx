@@ -1,65 +1,147 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["700"],
+});
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (email === "admin@test.com" && password === "1234") {
+      router.push("/dashboard");
+    } else {
+      alert("Invalid credentials");
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="relative min-h-screen bg-[#F4F5F7] overflow-hidden flex">
+      {/* LEFT SIDE */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-10 z-10">
+        <div className="w-full max-w-md">
+          <h1 className="text-3xl font-bold text-gray-800 mb-3">
+            Welcome Back 👋
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className="text-gray-500 mb-8">
+            Sign in to access your inbox, manage your messages, and stay
+            connected securely.
           </p>
+
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="block text-sm text-gray-600 mb-2">Email</label>
+              <input
+                type="email"
+                placeholder="Example@email.com"
+                className="w-full px-4 py-3 rounded-xl bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#14004D]"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="At least 8 characters"
+                className="w-full px-4 py-3 rounded-xl bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#14004D]"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center gap-2 text-gray-600">
+                <input type="checkbox" className="accent-[#14004D]" />
+                Remember Me
+              </label>
+
+              <a href="#" className="text-[#14004D] hover:underline">
+                Forgot Password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#14004D] text-white py-3 rounded-xl hover:opacity-90 transition-all"
+            >
+              Login
+            </button>
+          </form>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </div>
+
+      {/* RIGHT DARK SECTION */}
+      <div className="hidden lg:block absolute right-0 bottom-0 w-1/2 h-1/2 bg-[#2F3455]" />
+
+      {/* IMAGE 1 (Rotated 180°) */}
+      <Image
+        src="/image1.png"
+        alt="Image 1"
+        width={148}
+        height={165}
+        className="hidden lg:block absolute"
+        style={{
+          top: "111px",
+          left: "821px",
+
+          filter: "drop-shadow(0px 25px 35px rgba(0,0,0,0.25))",
+        }}
+      />
+
+      {/* IMAGE 2 WITH /MC TEXT */}
+      <div
+        className="absolute hidden lg:block"
+        style={{
+          top: "274px",
+          left: "997px",
+          width: "148.73px",
+          height: "214.13px",
+        }}
+      >
+        {/* Make parent relative */}
+        <div className="relative   w-full h-full">
+          <Image
+            src="/image2.png"
+            alt="Image 2"
+            fill
+            className="object-contain"
+            style={{
+              filter: "drop-shadow(0px 25px 35px rgba(0,0,0,0.25))",
+            }}
+          />
+
+          {/* CENTERED /MC TEXT */}
+          <div
+            className={`${roboto.className} absolute inset-0 flex items-center justify-center`}
+            style={{
+              transform: "rotate(30deg)",
+              fontSize: "30px",
+              fontWeight: 700,
+              color: "#14004D",
+              letterSpacing: 0, // <-- this sets letter spacing to 0
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <p style={{ width: 69, height: 42 }}>/MC</p>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
