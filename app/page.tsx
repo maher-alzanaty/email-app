@@ -17,7 +17,6 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (email === "admin@test.com" && password === "1234") {
       router.push("/dashboard");
     } else {
@@ -26,121 +25,183 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F4F5F7] overflow-hidden flex">
-      {/* LEFT SIDE */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-10 z-10">
-        <div className="w-full max-w-md">
-          <h1 className="text-3xl font-bold text-gray-800 mb-3">
+    <div className="relative w-[1440px] h-[900px] bg-[#F7F8FC] overflow-hidden">
+      {/* LOGIN FORM */}
+      <div
+        className="absolute left-[calc(50%-388px/2-354px)] 
+                top-[calc(50%-423px/2)] 
+                w-[388px] h-[423px] 
+                flex flex-col gap-12 
+                relative"
+      >
+        <div className="flex flex-col gap-3">
+          <h1 className="text-3xl font-semibold text-gray-800 text-center">
             Welcome Back 👋
           </h1>
-
-          <p className="text-gray-500 mb-8">
+          <p className="text-sm text-gray-500 text-center">
             Sign in to access your inbox, manage your messages, and stay
             connected securely.
           </p>
-
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div>
-              <label className="block text-sm text-gray-600 mb-2">Email</label>
-              <input
-                type="email"
-                placeholder="Example@email.com"
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#14004D]"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-600 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="At least 8 characters"
-                className="w-full px-4 py-3 rounded-xl bg-gray-100 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#14004D]"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-gray-600">
-                <input type="checkbox" className="accent-[#14004D]" />
-                Remember Me
-              </label>
-
-              <a href="#" className="text-[#14004D] hover:underline">
-                Forgot Password?
-              </a>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-[#14004D] text-white py-3 rounded-xl hover:opacity-90 transition-all"
-            >
-              Login
-            </button>
-          </form>
         </div>
+
+        <form className="flex flex-col gap-6" onSubmit={handleLogin}>
+          <div className="flex flex-col gap-2">
+            <label className="text-gray-600 text-sm">Email</label>
+            <input
+              type="email"
+              placeholder="Example@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#14004D]"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-gray-600 text-sm">Password</label>
+            <input
+              type="password"
+              placeholder="At least 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#14004D]"
+              required
+            />
+          </div>
+
+          <div className="flex justify-between text-sm">
+            <label className="flex items-center gap-2 text-gray-600">
+              <input type="checkbox" className="accent-[#14004D]" /> Remember Me
+            </label>
+            <a href="#" className="text-[#14004D] hover:underline">
+              Forgot Password?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-[#14004D] text-white py-3 rounded-xl hover:opacity-90 transition-all"
+          >
+            Login
+          </button>
+        </form>
       </div>
 
-      {/* RIGHT DARK SECTION */}
-      <div className="hidden lg:block absolute right-0 bottom-0 w-1/2 h-1/2 bg-[#2F3455]" />
-
-      {/* IMAGE 1 (Rotated 180°) */}
-      <Image
-        src="/image1.png"
-        alt="Image 1"
-        width={148}
-        height={165}
-        className="hidden lg:block absolute"
+      {/* RIGHT BACKGROUND */}
+      <div
+        className="absolute w-[709px] h-[900px] left-[801px] top-0"
         style={{
-          top: "111px",
-          left: "821px",
-
-          filter: "drop-shadow(0px 25px 35px rgba(0,0,0,0.25))",
+          background:
+            "linear-gradient(217.64deg, #454D7B -10.97%, #181B2B 101.6%)",
         }}
       />
 
-      {/* IMAGE 2 WITH /MC TEXT */}
-      <div
-        className="absolute hidden lg:block"
+      {/* ===== VECTOR COLUMNS ===== */}
+
+      {/* Column 2 (Back) */}
+      <Image
+        src="/Vector2.svg"
+        alt="column2"
+        width={346.92}
+        height={834.37}
+        className="absolute"
         style={{
-          top: "274px",
-          left: "997px",
-          width: "148.73px",
-          height: "214.13px",
+          left: "897.81px",
+          top: "267.19px",
+          zIndex: 1,
+        }}
+      />
+
+      {/* Column 1 (Front Left) */}
+      <Image
+        src="/Vector1.svg"
+        alt="column1"
+        width={214.82}
+        height={518.14}
+        className="absolute"
+        style={{
+          left: "801px",
+          top: "594.86px",
+          zIndex: 2,
+        }}
+      />
+
+      {/* Column 3 (Front Right) */}
+      <Image
+        src="/Vector3.svg"
+        alt="column3"
+        width={235.14}
+        height={564.99}
+        className="absolute"
+        style={{
+          left: "1213.29px",
+          top: "505.61px",
+          zIndex: 2,
+        }}
+      />
+
+      {/* ===== IMAGES ON TOP ===== */}
+
+      {/* Left icon */}
+      <Image
+        src="/image3.png"
+        alt="22"
+        width={114.15}
+        height={108.38}
+        className="absolute mt-10 ml-"
+        style={{
+          left: "850.69px",
+          top: "554.06px",
+          filter: "drop-shadow(-9px 6px 7.3px rgba(0,0,0,0.35))",
+
+          zIndex: 3,
+        }}
+      />
+
+      {/* Middle icon */}
+      <Image
+        src="/image1.png"
+        alt="middle"
+        width={209}
+        height={233}
+        className="absolute mt-10 ml-0"
+        style={{
+          left: "975px",
+          top: "150px",
+          zIndex: 3,
+        }}
+      />
+
+      {/* Right icon */}
+      <Image
+        src="/image2.svg"
+        alt="right"
+        width={148}
+        height={165}
+        className="absolute mt-10 ml-0"
+        style={{
+          left: "1260px",
+          top: "380px",
+          zIndex: 3,
+        }}
+      />
+      {/* /MC Text */}
+      <div
+        className={`${roboto.className} absolute flex items-center`}
+        style={{
+          width: "69px",
+          height: "42px",
+          left: "1288px",
+          top: "485px",
+          fontWeight: 700,
+          fontSize: "36px",
+          lineHeight: "42px",
+          color: "#0D034A",
+          transform: "matrix(0.87, 0.5, 0, 1, 0, 0)",
+          zIndex: 4,
         }}
       >
-        {/* Make parent relative */}
-        <div className="relative   w-full h-full">
-          <Image
-            src="/image2.png"
-            alt="Image 2"
-            fill
-            className="object-contain"
-            style={{
-              filter: "drop-shadow(0px 25px 35px rgba(0,0,0,0.25))",
-            }}
-          />
-
-          {/* CENTERED /MC TEXT */}
-          <div
-            className={`${roboto.className} absolute inset-0 flex items-center justify-center`}
-            style={{
-              transform: "rotate(30deg)",
-              fontSize: "30px",
-              fontWeight: 700,
-              color: "#14004D",
-              letterSpacing: 0, // <-- this sets letter spacing to 0
-            }}
-          >
-            <p style={{ width: 69, height: 42 }}>/MC</p>
-          </div>
-        </div>
+        /MC
       </div>
     </div>
   );
