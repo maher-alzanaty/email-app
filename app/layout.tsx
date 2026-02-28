@@ -32,3 +32,39 @@ export default function RootLayout({
     </html>
   );
 }
+
+// // app/layout.tsx
+// import "./globals.css";
+// import Sidebar from "@/components/Sidebar";
+// import Topbar from "@/components/Topbar";
+
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   return (
+//     <html lang="en">
+//       <body className="bg-[#F7F8FC]">
+//         <div className="flex min-h-screen">
+
+//           {/* Sidebar */}
+//           <Sidebar />
+
+//           {/* Right Side */}
+//           <div className="flex-1 flex flex-col">
+
+//             {/* Top Bar */}
+//             <Topbar />
+
+//             {/* PAGE CONTENT CHANGES HERE */}
+//             <div className="px-8 pb-8 flex-1">
+//               {children}
+//             </div>
+
+//           </div>
+//         </div>
+//       </body>
+//     </html>
+//   );
+// }

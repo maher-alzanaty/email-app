@@ -26,14 +26,14 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="relative w-[1440px] h-[900px] bg-[#F7F8FC] overflow-hidden ">
+      <div className="relative w-[1480] h-[900px] bg-[#F7F8FC] overflow-hidden ">
         {/* LOGIN FORM */}
         <div
           className="absolute left-[calc(50%-388px/2-354px)] 
                 top-[calc(50%-423px/2)] 
                 w-[388px] h-[423px] 
                 flex flex-col gap-12 
-                relative"
+                relative "
         >
           <div className="flex flex-col gap-3">
             <h1
@@ -127,7 +127,7 @@ export default function LoginPage() {
         <Image
           src="/Vector2.svg"
           alt="column2"
-          width={346.92}
+          width={370}
           height={834.37}
           className="absolute"
           style={{
@@ -155,7 +155,7 @@ export default function LoginPage() {
         <Image
           src="/Vector3.svg"
           alt="column3"
-          width={235.14}
+          width={280.15}
           height={564.99}
           className="absolute"
           style={{
@@ -207,7 +207,7 @@ export default function LoginPage() {
           className="absolute mt-10 ml-0"
           style={{
             left: "1260px",
-            top: "380px",
+            top: "400px",
             zIndex: 3,
           }}
         />
@@ -218,7 +218,7 @@ export default function LoginPage() {
             width: "69px",
             height: "42px",
             left: "1288px",
-            top: "485px",
+            top: "500px",
             fontWeight: 700,
             fontSize: "36px",
             lineHeight: "42px",

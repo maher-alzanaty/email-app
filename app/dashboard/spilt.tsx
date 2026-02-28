@@ -68,36 +68,41 @@ function HoverIcon({ icon, bgHover }: { icon: string; bgHover: string }) {
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
-
   const [emails, setEmails] = useState(
-    initialEmails.map((email) => ({ ...email, starred: false })),
+    initialEmails.map((email) => ({ ...email, starred: false }))
   );
+  const [selectedEmail, setSelectedEmail] = useState<number>(0);
 
   const filteredEmails = emails.filter(
     (email) =>
       email.sender.toLowerCase().includes(search.toLowerCase()) ||
       email.subject.toLowerCase().includes(search.toLowerCase()) ||
-      email.preview.toLowerCase().includes(search.toLowerCase()),
+      email.preview.toLowerCase().includes(search.toLowerCase())
   );
 
   const toggleStar = (index: number) => {
     setEmails((prev) =>
       prev.map((email, i) =>
-        i === index ? { ...email, starred: !email.starred } : email,
-      ),
+        i === index ? { ...email, starred: !email.starred } : email
+      )
     );
   };
 
   const markAsRead = (index: number) => {
     setEmails((prev) =>
       prev.map((email, i) =>
-        i === index ? { ...email, unread: false } : email,
-      ),
+        i === index ? { ...email, unread: false } : email
+      )
     );
   };
 
+  const handleEmailClick = (index: number) => {
+    markAsRead(index);
+    setSelectedEmail(index);
+  };
+
   const sidebarItems = [
-    // { name: "All Mail", icon: "/vector-allemail.png" },
+    { name: "All Mail", icon: "/vector-allemail.png" },
     { name: "Inbox", icon: "/vector-inbox.png" },
     { name: "Spam", icon: "/vector-spam.png" },
     { name: "Sent", icon: "/vector-sent.png" },
@@ -123,18 +128,6 @@ export default function Dashboard() {
         </button>
 
         <nav className="flex flex-col gap-2 flex-1 text-gray-700">
-            <div className="flex justify-between items-center px-2 py-3 bg-[#0D034A]/10 border-l-2 border-[#0D034A] rounded-r-lg cursor-pointer">
-                      <div className="flex items-start  gap-2">
-                        <Image
-                          src="/vector-allemail.png"
-                          width={16}
-                          height={16}
-                          alt="inbox"
-                        />
-                        <span className="font-bold text-[#0D034A]">All Mail</span>
-                      </div>
-                      <span className="text-sm font-bold text-[#0D034A]">16</span>
-                    </div>
           {sidebarItems.map((item, i) => (
             <SidebarItem key={i} {...item} />
           ))}
@@ -154,7 +147,7 @@ export default function Dashboard() {
           {/* Sign Out */}
           <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2">
             <Image
-              src="/vectorsignout.png"
+              src="https://img.icons8.com/ios-filled/50/FF0000/logout-rounded-left.png"
               width={16}
               height={16}
               alt="Sign Out"
@@ -191,7 +184,7 @@ export default function Dashboard() {
             width={16}
             height={16}
             alt="Search Icon"
-     
+            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ms-2"
           />
           <input
             type="text"
@@ -203,112 +196,93 @@ export default function Dashboard() {
           <Image src="/srchl.png" width={16} height={16} alt="Search Icon" />
         </div>
 
-        {/* Emails */}
-        <div
-          className="flex-1 bg-white rounded-lg shadow overflow-auto mt-24"
-          style={{ width: "calc(100% - 3em)" }}
-        >
-          <div className="flex justify-between items-center px-4 py-2 my-2 w-full h-6">
-            {/* Left Actions */}
-            <div className="flex items-center gap-3 w-60">
-              <div className="w-6 h-6 rounded cursor-pointer flex items-center justify-center">
-                <span className="text-white text-sm">{"<"}</span>
-                <img src="/square.png" alt="Left Arrow" className="" />
-              </div>
-              <div className="w-6 h-6 rounded cursor-pointer flex items-center justify-center">
-                <img src="/refresh.png" alt="Refresh" className="" />
-              </div>
-            </div>
+        {/* EMAIL LIST + CONTENT */}
+        <div className="flex mt-24 h-[calc(100%-6rem)]">
+          {/* Email List */}
+          <div className="w-1/3 bg-white rounded-lg shadow overflow-auto">
+            {filteredEmails.map((email, idx) => (
+              <div
+                key={idx}
+                onClick={() => handleEmailClick(idx)}
+                className={`flex items-center justify-between px-4 py-3 border-b last:border-b-0 cursor-pointer
+                  ${selectedEmail === idx ? "bg-gray-100" : ""}
+                  ${email.unread && selectedEmail !== idx ? "bg-gray-50" : ""}
+                  hover:bg-gray-100`}
+              >
+                <div className="flex items-center gap-3">
+                  <input type="checkbox" className="accent-[#14004D]" />
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleStar(idx);
+                    }}
+                    className="w-5 h-5 flex items-center justify-center cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill={email.starred ? "#facc15" : "none"}
+                      stroke="#191918"
+                      strokeWidth={1.5}
+                      className="w-4 h-4 transition-transform duration-200 hover:scale-110"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"
+                      />
+                    </svg>
+                  </div>
 
-            {/* Pages count */}
-           
+                  {email.avatar ? (
+                    <Image
+                      src={email.avatar}
+                      alt={email.sender}
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">
+                      {email.sender[0]}
+                    </div>
+                  )}
 
-            {/* Right Actions */}
-            <div className="flex items-center gap-6 w-55 justify-end">
-               <div className="flex items-center justify-end gap-3 w-32">
-              <div className="w-6 h-6 bg-gray-400 rounded flex items-center justify-center cursor-pointer">
-                {"<"}
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-gray-800">{email.sender}</span>
+                    <span className="text-gray-600 text-sm">{email.subject}</span>
+                    <span className="text-gray-400 text-sm">{email.preview}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-end">
+                  <span className="text-gray-500 text-sm">{email.time}</span>
+                  {email.unread && <span className="w-2.5 h-2.5 bg-blue-600 rounded-full mt-2"></span>}
+                </div>
               </div>
-              <span className="text-gray-600 text-sm">50 of 90</span>
-              <div className="w-6 h-6 bg-gray-700 rounded flex items-center justify-center cursor-pointer">
-                {">"}
-              </div>
-            </div>
-              <div className="w-6 h-6 rounded cursor-pointer flex items-center justify-center">
-                <img src="/dashed.png" alt="More Options" className="" />
-              </div>
-              <div className="w-6 h-6 rounded cursor-pointer flex items-center justify-center">
-                <img src="/underray.png" alt="More Options" className="" />
-              </div>
-            </div>
+            ))}
           </div>
 
-          {filteredEmails.map((email, idx) => (
-            <div
-              key={idx}
-              onClick={() => markAsRead(idx)}
-              className={`flex items-center justify-between px-4 py-3 border-b last:border-b-0 cursor-pointer ${
-                email.unread ? "bg-gray-50" : ""
-              } hover:bg-gray-100`}
-            >
-              <div className="flex items-center gap-3">
-                {/* ⭐ STAR */}
-                <input type="checkbox" className="accent-[#14004D]" />
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleStar(idx);
-                  }}
-                  className="w-5 h-5 flex items-center justify-center cursor-pointer"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill={email.starred ? "#facc15" : "none"}
-                    stroke="#191918"
-                    strokeWidth={1.5}
-                    className="w-4 h-4 transition-transform duration-200 hover:scale-110"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"
-                    />
-                  </svg>
-                </div>
-
-                {email.avatar ? (
+          {/* Email Content */}
+          {selectedEmail !== null && filteredEmails[selectedEmail] && (
+            <div className="flex-1 bg-white rounded-lg shadow p-6 ml-4 overflow-auto">
+              <h2 className="font-semibold text-lg">{filteredEmails[selectedEmail].subject}</h2>
+              <div className="flex items-center gap-2 my-2">
+                {filteredEmails[selectedEmail].avatar && (
                   <Image
-                    src={email.avatar}
-                    alt={email.sender}
+                    src={filteredEmails[selectedEmail].avatar}
                     width={32}
                     height={32}
+                    alt={filteredEmails[selectedEmail].sender}
                     className="rounded-full"
                   />
-                ) : (
-                  <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">
-                    {email.sender[0]}
-                  </div>
                 )}
-
-                <div className="flex flex-col">
-                  <span className="font-semibold text-gray-800">
-                    {email.sender}
-                  </span>
-                  <span className="text-gray-600 text-sm">{email.subject}</span>
-                  <span className="text-gray-400 text-sm">{email.preview}</span>
-                </div>
+                <span className="text-gray-700">{filteredEmails[selectedEmail].sender}</span>
+                <span className="text-gray-500 text-sm ml-2">{filteredEmails[selectedEmail].time}</span>
               </div>
-
-              {/* RIGHT SIDE */}
-              <div className="flex flex-col items-end">
-                <span className="text-gray-500 text-sm">{email.time}</span>
-                {email.unread && (
-                  <span className="w-2.5 h-2.5 bg-blue-600 rounded-full mt-2"></span>
-                )}
-              </div>
+              <p className="text-gray-600 mt-4">{filteredEmails[selectedEmail].preview.repeat(5)}</p>
             </div>
-          ))}
+          )}
         </div>
 
         {/* Right Sidebar */}
