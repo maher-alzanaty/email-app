@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import RightPanel from "@/components/RightPanel";
 
 // ================= Sidebar Item =================
 function SidebarItem({ icon, name, count }: { icon: string; name: string; count?: number }) {
@@ -17,16 +18,21 @@ function SidebarItem({ icon, name, count }: { icon: string; name: string; count?
 }
 
 // ================= Right Sidebar Hover Icon =================
-function HoverIcon({ icon, bgHover }: { icon: string; bgHover: string }) {
+function HoverIcon({ 
+  icon, 
+  bgHover, 
+  onClick 
+}: { 
+  icon: string; 
+  bgHover: string; 
+  onClick?: () => void;
+}) {
   return (
-    <div className={`w-8 h-8 relative bg-white rounded shadow cursor-pointer hover:${bgHover} transition`}>
-      <Image
-        src={icon}
-        width={24}
-        height={24}
-        alt=""
-        className="absolute left-[16.67%] top-[8.33%]"
-      />
+    <div
+      onClick={onClick}
+      className={`w-8 h-8 flex items-center justify-center bg-white rounded shadow cursor-pointer ${bgHover} hover:opacity-80 transition`}
+    >
+      <Image src={icon} width={20} height={20} alt="" />
     </div>
   );
 }
@@ -175,6 +181,7 @@ const [weekStartDay, setWeekStartDay] = useState("Sunday");
 const [defaultTap, setDefaultTap] = useState("Month");
 const [startTime, setStartTime] = useState("09:00 AM");
 const [endTime, setEndTime] = useState("06:00 PM");
+const [activePanel, setActivePanel] = useState<string | null>(null);
 
   const sidebarItems = [
     { name: "All Mail", icon: "/vector-allemail.png", count: 16 },
@@ -189,9 +196,9 @@ const [endTime, setEndTime] = useState("06:00 PM");
  
 
   return (
-    <div className="flex min-h-screen bg-[#F4F5F7] relative">
+   <div className="flex min-h-screen bg-[#F4F5F7]">
       {/* ================= LEFT SIDEBAR ================= */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col p-4">
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col p-4  ">
         <button className="bg-[#14004D] text-white px-4 py-2 rounded-md mb-6 hover:opacity-90 flex justify-center items-center gap-1">
           <Image src="/vector-message.png" width={16} height={16} alt="New Message" />
           <span>New Message</span>
@@ -221,10 +228,13 @@ const [endTime, setEndTime] = useState("06:00 PM");
         </nav>
       </aside>
 
+
       {/* ================= MAIN CONTENT ================= */}
       <main className="flex-1 flex flex-col p-6 relative">
+ x
+        
         {/* Top Right */}
-        <div className="absolute right-6 top-6 flex items-center gap-3">
+        <div className="absolute right-6 top-12 flex items-center gap-3">
           <Image
             src="https://img.icons8.com/ios-filled/50/606060/settings.png"
             width={24}
@@ -261,7 +271,7 @@ const [endTime, setEndTime] = useState("06:00 PM");
         </div>
 
         {/* ================= SETTINGS CONTENT ================= */}
-        <div className="flex flex-1 mt-6 overflow-hidden" style={{ width: "calc(100% - 3em)" }}>
+        <div className="flex flex-1 mt-6 overflow-hidden " style={{ width: "calc(100% - 3em)" }}>
           <div className="flex-1 bg-white rounded-lg shadow px-8 py-6 flex flex-col relative">
             {/* Header */}
             <div className="border-b pb-4 mb-6">
@@ -398,16 +408,46 @@ const [endTime, setEndTime] = useState("06:00 PM");
         </div>
 
         {/* ================= RIGHT FLOATING SIDEBAR ================= */}
-        <div className="absolute right-6 top-32 flex flex-col gap-4 w-8">
-          <HoverIcon icon="https://img.icons8.com/ios-filled/50/1FC16B/calendar.png" bgHover="bg-[#e0f7f2]" />
-          <div className="h-px w-8 bg-gray-300"></div>
-          <HoverIcon icon="/notes.png" bgHover="bg-[#fff3cd]" />
-          <div className="h-px w-8 bg-gray-300"></div>
-          <HoverIcon icon="/task.png" bgHover="bg-[#cce0ff]" />
-          <div className="h-px w-8 bg-gray-300"></div>
-          <HoverIcon icon="/contact.png" bgHover="bg-[#d1d1d1]" />
-        </div>
+ {/* ================= RIGHT FLOATING SIDEBAR ================= */}
+<div className="absolute right-6 top-32 flex flex-col gap-4 w-8">
+  <HoverIcon
+    icon="https://img.icons8.com/ios-filled/50/1FC16B/calendar.png"
+    bgHover="hover:bg-[#e0f7f2]"
+    onClick={() => setActivePanel("calendar")}
+  />
+  <div className="h-px w-8 bg-gray-300"></div>
+
+  <HoverIcon
+    icon="/notes.png"
+    bgHover="hover:bg-[#fff3cd]"
+    onClick={() => setActivePanel("notes")}
+  />
+  <div className="h-px w-8 bg-gray-300"></div>
+
+  <HoverIcon
+    icon="/task.png"
+    bgHover="hover:bg-[#cce0ff]"
+    onClick={() => setActivePanel("tasks")}
+  />
+  <div className="h-px w-8 bg-gray-300"></div>
+
+  <HoverIcon
+    icon="/contact.png"
+    bgHover="hover:bg-[#d1d1d1]"
+    onClick={() => setActivePanel("contacts")}
+  />
+</div>
+
+
       </main>
+      
+    {/* Right Panel */}
+    {activePanel && (
+      <RightPanel
+        type={activePanel}
+        onClose={() => setActivePanel(null)}
+      />
+    )}
     </div>
   );
 }
