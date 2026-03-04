@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+
 import RightPanel from "@/components/RightPanel";
 import ComposeModal from "@/components/ComposeModal";
+import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 // ================= Sidebar Item =================
 function SidebarItem({ icon, name, count }: { icon: string; name: string; count?: number }) {
@@ -17,6 +19,7 @@ function SidebarItem({ icon, name, count }: { icon: string; name: string; count?
     </div>
   );
 }
+
 
 // ================= Right Sidebar Hover Icon =================
 function HoverIcon({ 
@@ -170,6 +173,15 @@ function CheckboxRow({ label, description }: { label: string; description?: stri
 // ================= Dashboard Component =================
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("General");
+  const router = useRouter();
+  const pathname = usePathname(); // current path
+    const handleClick = () => {
+    if (pathname === "/settings") {
+      router.push("/dashboard"); // go back if already in settings
+    } else {
+      router.push("/settings"); // go to settings
+    }
+  };
 
   // ======== General Settings State ========
   const [language, setLanguage] = useState("English(US)");
@@ -225,7 +237,9 @@ const [activePanel, setActivePanel] = useState<string | null>(null);
                       />
                     </div>
 
-          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2">
+          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2"
+          onClick={() => router.push("/signout")}
+          >
             <Image src="/vectorsignout.png" width={16} height={16} alt="Sign Out" />
             Sign Out
           </button>
@@ -245,6 +259,7 @@ const [activePanel, setActivePanel] = useState<string | null>(null);
             height={24}
             alt="Settings"
             className="cursor-pointer hover:opacity-80"
+            onClick={handleClick}
           />
           <Image
             src="https://randomuser.me/api/portraits/men/75.jpg"

@@ -1,9 +1,10 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ComposeModal from "@/components/ComposeModal";
 
 // Sample Emails
 
@@ -169,7 +170,11 @@ function ActionsRow() {
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
-  const router = useRouter();
+   const router = useRouter();
+  const pathname = usePathname(); // current path
+ const [showCompose, setShowCompose] = useState(false);
+
+
 const params = useParams();
 const [selectedEmail, setSelectedEmail] = useState<number>(
   Number(params?.id ?? 0)
@@ -217,7 +222,9 @@ const email =
     <div className="flex min-h-screen bg-[#F4F5F7] relative">
       {/* LEFT SIDEBAR */}
       <aside className="w-64 bg-white border-r border-gray-200 flex flex-col p-4">
-        <button className="bg-[#14004D] text-white px-4 py-2 rounded-md mb-6 hover:opacity-90 flex justify-center items-center gap-1">
+        <button className="bg-[#14004D] text-white px-4 py-2 rounded-md mb-6 hover:opacity-90 flex justify-center items-center gap-1"
+         onClick={() => setShowCompose(true)}
+        >
           <Image src="/vector-message.png" width={16} height={16} alt="New Message" />
           <span>New Message</span>
         </button>
@@ -260,6 +267,7 @@ const email =
             height={24}
             alt="Settings"
             className="cursor-pointer hover:opacity-80"
+                      onClick={() => router.push("/settings")}
           />
           <Image
             src="https://randomuser.me/api/portraits/men/75.jpg"
@@ -462,6 +470,9 @@ const email =
           <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
           <HoverIcon icon="/contact.png" bgHover="bg-[#d1d1d1]" />
         </div>
+
+        {showCompose && <ComposeModal onClose={() => setShowCompose(false)} />}
+        
       </main>
     </div>
   );
