@@ -1,9 +1,12 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Sample Emails
+
 const initialEmails = [
   {
     sender: "Jeanne Nesty",
@@ -166,7 +169,11 @@ function ActionsRow() {
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
-  const [selectedEmail, setSelectedEmail] = useState(0);
+  const router = useRouter();
+const params = useParams();
+const [selectedEmail, setSelectedEmail] = useState<number>(
+  Number(params?.id ?? 0)
+);
   const [emails, setEmails] = useState(
     initialEmails.map((email) => ({ ...email, starred: false }))
   );
@@ -184,12 +191,12 @@ export default function Dashboard() {
     );
   };
 
-  const markAsRead = (index: number) => {
-    setEmails((prev) =>
-      prev.map((email, i) => (i === index ? { ...email, unread: false } : email))
-    );
-    setSelectedEmail(index);
-  };
+const markAsRead = (index: number) => {
+  setEmails((prev) =>
+    prev.map((email, i) => (i === index ? { ...email, unread: false } : email))
+  );
+  setSelectedEmail(index); // now it's fine
+};
 
   const sidebarItems = [
     { name: "All Mail", icon: "/vector-allemail.png" },
@@ -201,7 +208,10 @@ export default function Dashboard() {
     { name: "More", icon: "/more.png" },
   ];
 
-  const email = filteredEmails[selectedEmail];
+const email =
+  selectedEmail >= 0 && selectedEmail < filteredEmails.length
+    ? filteredEmails[selectedEmail]
+    : null;
 
   return (
     <div className="flex min-h-screen bg-[#F4F5F7] relative">
@@ -226,7 +236,9 @@ export default function Dashboard() {
               className="cursor-pointer"
             />
           </div>
-          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2">
+          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2"
+         onClick={() => router.push("/")}
+          >
             <Image
               src="/vectorsignout.png"
               width={16}

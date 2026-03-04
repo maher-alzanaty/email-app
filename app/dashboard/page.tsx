@@ -2,6 +2,10 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import RightPanel from "@/components/RightPanel";
+import { useRouter } from "next/navigation";
+import ComposeModal from "@/components/ComposeModal";
+
 
 // Sample Emails
 const initialEmails = [
@@ -50,24 +54,31 @@ function SidebarItem({ icon, name }: { icon: string; name: string }) {
 }
 
 // Right Sidebar Hover Icon
-function HoverIcon({ icon, bgHover }: { icon: string; bgHover: string }) {
+function HoverIcon({ 
+  icon, 
+  bgHover, 
+  onClick 
+}: { 
+  icon: string; 
+  bgHover: string; 
+  onClick?: () => void;
+}) {
   return (
     <div
-      className={`w-8 h-8 relative bg-white rounded shadow cursor-pointer hover:${bgHover} transition`}
+      onClick={onClick}
+      className={`w-8 h-8 flex items-center justify-center bg-white rounded shadow cursor-pointer ${bgHover} hover:opacity-80 transition`}
     >
-      <Image
-        src={icon}
-        width={24}
-        height={24}
-        alt=""
-        className="absolute left-[16.67%] top-[8.33%]"
-      />
+      <Image src={icon} width={20} height={20} alt="" />
     </div>
   );
 }
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
+    const router = useRouter();
+    const [showSettings, setShowSettings] = useState(false);
+    const [activePanel, setActivePanel] = useState<string | null>(null);
+     const [showCompose, setShowCompose] = useState(false);
 
   const [emails, setEmails] = useState(
     initialEmails.map((email) => ({ ...email, starred: false })),
@@ -110,7 +121,9 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-[#F4F5F7] relative">
       {/* LEFT SIDEBAR */}
       <aside className="w-64 bg-white border-r border-gray-200 flex flex-col p-4">
-        <button className="bg-[#14004D] text-white px-4 py-2 rounded-md mb-6 hover:opacity-90 flex justify-center items-center gap-1">
+        <button className="bg-[#14004D] text-white px-4 py-2 rounded-md mb-6 hover:opacity-90 flex justify-center items-center gap-1"
+           onClick={() => setShowCompose(true)}
+        >
           <span className="mr-2">
             <Image
               src="/vector-message.png"
@@ -152,12 +165,15 @@ export default function Dashboard() {
           </div>
 
           {/* Sign Out */}
-          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2">
+          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2"
+             onClick={() => router.push("/")}
+          >
             <Image
               src="/vectorsignout.png"
               width={16}
               height={16}
               alt="Sign Out"
+           
             />
             Sign Out
           </button>
@@ -174,6 +190,9 @@ export default function Dashboard() {
             height={24}
             alt="Settings"
             className="cursor-pointer hover:opacity-80"
+             onClick={() => {
+     router.push("/settings");
+    }}
           />
           <Image
             src="https://randomuser.me/api/portraits/men/75.jpg"
@@ -246,7 +265,10 @@ export default function Dashboard() {
           {filteredEmails.map((email, idx) => (
             <div
               key={idx}
-              onClick={() => markAsRead(idx)}
+              onClick={() => {markAsRead(idx);
+                 router.push(`/emailmessage/${idx}`);
+              }
+              }
               className={`flex items-center justify-between px-4 py-3 border-b last:border-b-0 cursor-pointer ${
                 email.unread ? "bg-gray-50" : ""
               } hover:bg-gray-100`}
@@ -258,6 +280,7 @@ export default function Dashboard() {
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleStar(idx);
+                   
                   }}
                   className="w-5 h-5 flex items-center justify-center cursor-pointer"
                 >
@@ -312,22 +335,47 @@ export default function Dashboard() {
         </div>
 
         {/* Right Sidebar */}
-        <div className="absolute right-6 top-32 flex flex-col gap-4 w-8 h-56 items-start">
-          <HoverIcon
-            icon="https://img.icons8.com/ios-filled/50/1FC16B/calendar.png"
-            bgHover="bg-[#e0f7f2]"
-          />
-          <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
+       <div className="absolute right-6 top-32 flex flex-col gap-4 w-8">
+  <HoverIcon
+    icon="https://img.icons8.com/ios-filled/50/1FC16B/calendar.png"
+    bgHover="hover:bg-[#e0f7f2]"
+    onClick={() => setActivePanel("calendar")}
+  />
+  <div className="h-px w-8 bg-gray-300"></div>
 
-          <HoverIcon icon="/notes.png" bgHover="bg-[#fff3cd]" />
-          <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
+  <HoverIcon
+    icon="/notes.png"
+    bgHover="hover:bg-[#fff3cd]"
+    onClick={() => setActivePanel("notes")}
+  />
+  <div className="h-px w-8 bg-gray-300"></div>
 
-          <HoverIcon icon="/task.png" bgHover="bg-[#cce0ff]" />
-          <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
+  <HoverIcon
+    icon="/task.png"
+    bgHover="hover:bg-[#cce0ff]"
+    onClick={() => setActivePanel("tasks")}
+  />
+  <div className="h-px w-8 bg-gray-300"></div>
 
-          <HoverIcon icon="/contact.png" bgHover="bg-[#d1d1d1]" />
-        </div>
+  <HoverIcon
+    icon="/contact.png"
+    bgHover="hover:bg-[#d1d1d1]"
+    onClick={() => setActivePanel("contacts")}
+  />
+</div>
+
+{showCompose && <ComposeModal onClose={() => setShowCompose(false)} />}
+
+        
       </main>
+      {/* Right Panel */}
+          {activePanel && (
+            <RightPanel
+              type={activePanel}
+              onClose={() => setActivePanel(null)}
+            />
+          )}
+      
     </div>
   );
 }
