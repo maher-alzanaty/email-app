@@ -265,7 +265,87 @@ const [activePanel, setActivePanel] = useState<string | null>(null);
       </div>
 
         {/* ================= SETTINGS CONTENT ================= */}
-      <div    className="flex-1 bg-white rounded-lg shadow overflow-auto mt-5 lg:mt-20 w-full lg:w-[calc(100%-4em)]">
+      <div    className="flex-1 bg-white rounded-lg shadow overflow-auto mt-5 lg:mt-20 w-full lg:w-[calc(100%-4em)] hidden lg:flex">
+  <div className="flex-1 bg-white rounded-lg shadow px-8 py-6 flex flex-col relative">
+    
+    {/* Header */}
+    <div className="border-b pb-4 mb-6 flex-shrink-0">
+      <h2 className="text-2xl font-semibold text-[#333]">Settings</h2>
+    </div>
+
+    {/* Tabs */}
+    <div className="flex gap-8 border-b pb-3 mb-6 text-sm flex-shrink-0">
+      {["General", "Security & Privacy", "Account & Integration", "Files & Calendar"].map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`pb-2 ${
+            activeTab === tab
+              ? "text-[#0D034A] font-semibold border-b-2 border-[#0D034A]"
+              : "text-gray-500 hover:text-black"
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+
+    {/* Scrollable Tab Content */}
+    <div className="flex-1 overflow-y-auto flex flex-col gap-4 text-sm">
+      {activeTab === "General" && (
+        <>
+          <DropdownRow label="Language" description="Display language" options={["English(US)", "Arabic"]} value={language} onChange={setLanguage} />
+          <DropdownRow label="Time Format" options={["12-hour", "24-hour"]} value={timeFormat} onChange={setTimeFormat} />
+          <DropdownRow label="Refresh Time" options={["1 Min", "5 Min", "15 Min"]} value={refreshTime} onChange={setRefreshTime} />
+          <DropdownRow label="Themes" options={["Default", "Dark", "Light"]} value={theme} onChange={setTheme} />
+          <DropdownRow label="Messages Per Page" description="Conversations per page" options={["25", "50", "100"]} value={messagesPerPage} onChange={setMessagesPerPage} />
+          <DropdownRow label="Desktop Notifications" options={["New mail notifications on", "Off"]} value={desktopNotification} onChange={setDesktopNotification} />
+        </>
+      )}
+
+      {activeTab === "Security & Privacy" && (
+        <>
+          <ToggleButtonRow label="Two-factor verification" description="Increase your security by enabling two factor verification for your account" />
+          <CheckboxRow label="Paranoid encryption" description="Enables browser-level on-the-fly encryption in Files. AES256." />
+          <CheckboxRow label="File encryption" description="Every time while upload you will be asked if the file should be encrypted." />
+        </>
+      )}
+
+      {activeTab === "Account & Integration" && (
+        <>
+          <ToggleButtonRow label="Connect to Google" description="Can log in using Google account" />
+          <CheckboxRow label="Google Drive in Files" description="Enable Google Drive in Files" />
+        </>
+      )}
+
+      {activeTab === "Files & Calendar" && (
+        <>
+          <CheckboxRow label="Files Table view" description="Enable Table view for files list" />
+          <CheckboxRow label="Preview Pane" description="Enable preview pane in Files" />
+          <DoubleDropdownRow
+            label="Work day starts"
+            firstOptions={["08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM"]}
+            secondOptions={["04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"]}
+            firstValue={startTime}
+            secondValue={endTime}
+            onFirstChange={setStartTime}
+            onSecondChange={setEndTime}
+          />
+          <DropdownRow label="Week Start Day :" options={["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"]} value={weekStartDay} onChange={setWeekStartDay} />
+          <DropdownRow label="Default Tap:" options={["Month","Week","Day"]} value={defaultTap} onChange={setDefaultTap} />
+        </>
+      )}
+
+      {/* Save Button */}
+      <div className="pt-6 flex justify-end flex-shrink-0">
+        <button className="bg-[#0D034A] text-white px-6 py-2 rounded-md hover:opacity-90">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+      <div    className="flex-1 bg-white rounded-lg shadow overflow-auto mt-5 lg:mt-20 w-full  lg:hidden">
   <div className="flex-1 bg-white rounded-lg shadow px-8 py-6 flex flex-col relative">
     
     {/* Header */}

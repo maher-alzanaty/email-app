@@ -123,8 +123,8 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-[#F4F5F7] relative">
       {/* LEFT SIDEBAR */}
  
-      {/* MAIN CONTENT */}
-      <main className="flex-1 flex flex-col p-6 relative">
+      {/* MAIN CONTENT descktop*/}
+      <main className="flex-1 flex flex-col p-6 relative hidden lg:flex">
      {/* Right top icons - hide on small screens */}
 <div className="hidden lg:flex absolute right-6 top-6 items-center gap-3">
   <Image
@@ -288,13 +288,47 @@ export default function Dashboard() {
 
         
       </main>
-      {/* Right Panel */}
-          {activePanel && (
-            <RightPanel
-              type={activePanel}
-              onClose={() => setActivePanel(null)}
-            />
-          )}
+
+      {/* main content mobile*/}
+       {/* EMAIL LIST */}
+        <div className="flex-1 p-6 md:hidden">
+          <div className="flex flex-col gap-2">
+            {filteredEmails.map((email, idx) => (
+              <div
+                key={idx}
+                onClick={() => {
+                  markAsRead(idx);
+                  router.push(`/emailmessage/${idx}`);
+                }}
+                className={`flex items-center justify-between px-4 py-3 border rounded-lg cursor-pointer ${email.unread ? "bg-gray-50" : ""} hover:bg-gray-100`}
+              >
+                <div className="flex items-center gap-3">
+                  <input type="checkbox" className="accent-[#14004D]" />
+                  <div onClick={e => { e.stopPropagation(); toggleStar(idx); }} className="w-5 h-5 flex items-center justify-center cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={email.starred ? "#facc15" : "none"} stroke="#191918" strokeWidth={1.5} className="w-4 h-4 transition-transform duration-200 hover:scale-110">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </div>
+                  {email.avatar ? (
+                    <Image src={email.avatar} alt={email.sender} width={32} height={32} className="rounded-full" />
+                  ) : (
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">{email.sender[0]}</div>
+                  )}
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-gray-800">{email.sender}</span>
+                    <span className="text-gray-600 text-sm">{email.subject}</span>
+                    <span className="text-gray-400 text-sm">{email.preview}</span>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="text-gray-500 text-sm">{email.time}</span>
+                  {email.unread && <span className="w-2.5 h-2.5 bg-blue-600 rounded-full mt-2"></span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+   
       
     </div>
   );

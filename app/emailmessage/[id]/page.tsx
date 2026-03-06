@@ -73,7 +73,7 @@ function HoverIcon({ icon, bgHover }: { icon: string; bgHover: string }) {
 // Actions row component
 function ActionsRow() {
   return (
-    <div className="flex justify-between items-center px-4 py-2 mt-4 w-full max-w-[1100px]">
+    <div className="flex justify-between items-center px-4 py-2 mt-4 w-full max-w-[1100px]  ">
       {/* Left actions */}
       <div className="flex items-center gap-4">
         <Image
@@ -138,7 +138,7 @@ function ActionsRow() {
    
 
       {/* Right actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 hidden">
            <div className="flex items-center gap-3">
         <div className="w-6 h-6 bg-gray-400 rounded flex items-center justify-center cursor-pointer hover:bg-gray-500">
           {"<"}
@@ -224,9 +224,9 @@ const email =
    
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 flex flex-col p-6 relative">
+      <main className="flex-1 flex flex-col p-6 relative   hidden lg:flex">
         {/* Top Right */}
-        <div className="absolute right-6 top-6 flex items-center gap-3 hidden lg:flex">
+        <div className="absolute right-6 top-6 flex items-center gap-3">
           <Image
             src="https://img.icons8.com/ios-filled/50/606060/settings.png"
             width={24}
@@ -267,7 +267,7 @@ const email =
         <ActionsRow />
 
         {/* Emails & content */}
-        <div  className="flex-1 bg-white rounded-lg shadow overflow-auto mt-5 lg:mt-3 w-full lg:w-[calc(100%-3em)]">
+        <div  className="flex-1 bg-white rounded-lg shadow overflow-auto mt-5 lg:mt-3 w-full lg:w-[calc(100%-3em)] ">
         
 
           {/* Email content panel */}
@@ -431,6 +431,109 @@ const email =
         {showCompose && <ComposeModal onClose={() => setShowCompose(false)} />}
         
       </main>
+      <div className="lg:hidden">
+        <ActionsRow />
+        {email && (
+  <div className="flex-1 bg-white rounded-lg shadow p-4 overflow-auto flex flex-col gap-4 sm:p-3">
+
+    {/* ================= SUBJECT ROW ================= */}
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-3 sm:pb-4 gap-2 sm:gap-0">
+
+      {/* Left Side */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <h2 className="text-lg sm:text-2xl font-normal text-[#333] truncate">
+          {email.subject}
+        </h2>
+
+        <img src="/emailrow.png" alt="Email Row" className="w-5 h-5 cursor-pointer hover:opacity-70" />
+
+        <span className="text-xs bg-black/5 px-2 py-1 rounded text-black/60 font-medium whitespace-nowrap">
+          Inbox
+        </span>
+      </div>
+
+      {/* Right Icons */}
+      <div className="flex items-center gap-3 sm:gap-4 mt-2 sm:mt-0 flex-wrap">
+        <svg className="w-5 h-5 cursor-pointer hover:opacity-70" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 9V2h12v7h2a2 2 0 012 2v6h-4v5H6v-5H2v-6a2 2 0 012-2h2zm2-5v5h8V4H8zm8 13H8v3h8v-3z"/>
+        </svg>
+        <img src="/opennew.png" alt="Open in new" className="w-5 h-5 cursor-pointer hover:opacity-70" />
+      </div>
+    </div>
+
+    {/* ================= RECIPIENT + TIMESTAMP ================= */}
+    <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-0 mt-2">
+
+      {/* Left Section */}
+      <div className="flex items-start gap-3 flex-wrap">
+        {email.avatar && (
+          <Image src={email.avatar} width={40} height={40} alt={email.sender} className="rounded-full" />
+        )}
+
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-sm text-[#333]">
+            <span className="font-bold">{email.sender}</span>
+            <span className="text-xs text-[#777]">&lt;email@domain.com&gt;</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs text-[#777] flex-wrap">
+            <span>to</span>
+            <span>me</span>
+            <span className="underline cursor-pointer ml-2 text-[#0D034A] whitespace-nowrap">Unsubscribe</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section */}
+      <div className="flex items-center gap-3 sm:gap-4 text-xs text-[#777] flex-wrap">
+        <span>{email.time}</span>
+        <span>(8 hours ago)</span>
+        <img src="/emailstar.png" alt="Starred" className="w-4 h-4 cursor-pointer hover:opacity-70" />
+        <svg className="w-5 h-5 cursor-pointer hover:opacity-70" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 9V5l-7 7 7 7v-4.1c3.86 0 6.89 1.54 9 4.1-1-5-4-10-9-10z"/>
+        </svg>
+        <svg className="w-5 h-5 cursor-pointer hover:opacity-70" fill="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="5" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="12" cy="19" r="2"/>
+        </svg>
+      </div>
+    </div>
+
+    {/* ================= EMAIL BODY ================= */}
+    <div className="text-sm text-black leading-relaxed mt-2">
+      <p className="mb-3 sm:mb-4">{email.preview}</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod,
+        nisi vel consectetur euismod, nisl nunc consectetur nisi, euismod
+        consectetur nisi nisl euismod nisi.
+      </p>
+    </div>
+
+    {/* ================= SMART REPLIES ================= */}
+    <div className="flex flex-wrap gap-2 sm:gap-3 mt-3">
+      <button className="border border-gray-200 px-3 sm:px-4 py-2 rounded-lg text-sm text-[#0D034A] hover:bg-gray-50">Looking forward to it!</button>
+      <button className="border border-gray-200 px-3 sm:px-4 py-2 rounded-lg text-sm text-[#0D034A] hover:bg-gray-50">We will be there!</button>
+      <button className="border border-gray-200 px-3 sm:px-4 py-2 rounded-lg text-sm text-[#0D034A] hover:bg-gray-50">Thanks for the update!</button>
+    </div>
+
+    {/* Divider */}
+    <div className="border-t pt-3 mt-3"></div>
+
+    {/* ================= ACTION BUTTONS ================= */}
+    <div className="flex flex-wrap gap-2 sm:gap-4 mt-2">
+      <button className="px-4 sm:px-5 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 flex items-center gap-1">
+        <img src="/reply.png" alt="Reply" className="w-4 h-4 inline" /> Reply
+      </button>
+      <button className="px-4 sm:px-5 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 flex items-center gap-1">
+        <img src="/forward.png" alt="Forward" className="w-4 h-4 inline" /> Forward
+      </button>
+    </div>
+
+  </div>
+)}
+
+      </div>
     </div>
   );
 }

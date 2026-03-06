@@ -89,7 +89,7 @@ export default function DashboardLayout({
     { name: "More", icon: "/more.png" },
   ];
   return (
-    <div className="flex min-h-screen bg-[#F7F8FC] overflow-hidden ">
+    <div className="flex min-h-screen bg-[#F7F8FC] " >
  
 
       {/* ========================= */}
@@ -219,14 +219,12 @@ export default function DashboardLayout({
 </div>
 
         {/* PAGE CONTENT */}
-        <main className="flex-1">{children}
+        <main className="flex-1 pb-24 lg:pb-0">
+       {children}
 
           {showCompose && <ComposeModal onClose={() => setShowCompose(false)} />}
         </main>
-         
-      </div>
-       {/* Right Sidebar */}
-<div className="hidden lg:flex absolute right-6 top-32 flex-col gap-4 w-8">
+        <div className="hidden lg:flex absolute right-6 top-32 flex-col gap-4 w-8">
   <HoverIcon
     icon="https://img.icons8.com/ios-filled/50/1FC16B/calendar.png"
     bgHover="hover:bg-[#e0f7f2]"
@@ -260,7 +258,11 @@ export default function DashboardLayout({
                 type={activePanel}
                 onClose={() => setActivePanel(null)}
               />
-            )}
+            )}y
+         
+      </div>
+       {/* Right Sidebar */}
+
 
       {/* ========================= */}
       {/* MOBILE FULL SCREEN MENU */}

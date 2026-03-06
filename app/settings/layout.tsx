@@ -89,7 +89,7 @@ export default function DashboardLayout({
     { name: "More", icon: "/more.png" },
   ];
   return (
-    <div className="flex min-h-screen bg-[#F7F8FC] overflow-hidden">
+    <div className="flex min-h-screen bg-[#F7F8FC] ">
  
 
       {/* ========================= */}

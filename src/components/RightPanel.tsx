@@ -8,7 +8,7 @@ export default function RightPanel({
   const renderTasks = () => (
     <div className="flex flex-col items-start gap-6 w-full">
       {/* Header */}
-      <div className="flex justify-between items-center w-full sm:bg-gray-100 p-4 rounded">
+      <div className="flex justify-between items-center w-full bg-gray-100 p-4 rounded lg:bg-white">
         <h3 className="text-lg font-semibold text-gray-800">Tasks</h3>
         <button
           onClick={onClose}
@@ -73,7 +73,7 @@ const contactsData = [
 const renderContacts = () => (
   <div className="flex flex-col items-center gap-4 w-full">
     {/* Header */}
-    <div className="flex justify-between items-center w-full sm:bg-gray-100 p-4 rounded">
+    <div className="flex justify-between items-center w-full  bg-gray-100 p-4 rounded lg:bg-white">
       <h3 className="text-lg font-semibold text-gray-800">Contacts</h3>
       <button
         onClick={onClose}
@@ -117,7 +117,7 @@ const renderContacts = () => (
   const renderCalendar = () => (
   <div className="flex flex-col items-start gap-4 w-full">
     {/* Header */}
-    <div className="flex justify-between items-center w-full sm:bg-gray-100 p-4 rounded judtify-center">
+    <div className="flex justify-between items-center w-full bg-gray-100 p-4 rounded lg:bg-white">
       <h3 className="text-lg font-semibold text-gray-800">Calendar</h3>
       <button
         onClick={onClose}
