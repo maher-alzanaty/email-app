@@ -7,9 +7,66 @@ export default function ComposeModal({ onClose }: { onClose: () => void }) {
   const [body, setBody] = useState("");
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/20 z-50">
-          
-      <div className="relative w-[600px] h-[608px] bg-white rounded-t-lg shadow-lg flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/20 flex items-center justify-center">
+
+      {/* ================= MOBILE COMPOSE ================= */}
+      <div className="flex lg:hidden flex-col w-full h-full bg-white text-gray-700">
+
+        {/* Mobile Header */}
+        <div className="flex items-center justify-between px-4 h-14 border-b">
+          <button onClick={onClose}>←</button>
+          <span className="font-medium"></span>
+          <button className="bg-[#0D034A] text-white px-3 py-1 rounded text-sm">
+            Send
+          </button>
+        </div>
+
+        {/* Inputs */}
+        
+        <div className="px-4 py-3 flex flex-col gap-3">
+          <input
+            type="text"
+            placeholder="To"
+            value={"to:"}
+            onChange={(e) => setTo(e.target.value)}
+            className="border-b outline-none py-2"
+          />
+               <input
+            type="text"
+            placeholder="Cc"
+            value={"cc:"}
+            onChange={(e) => setTo(e.target.value)}
+            className="border-b outline-none py-2"
+          />
+               <input
+            type="text"
+            placeholder="Bcc"
+            value={"bcc:"}
+            onChange={(e) => setTo(e.target.value)}
+            className="border-b outline-none py-2"
+          />
+
+          <input
+            type="text"
+            placeholder="Subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className="border-b outline-none py-2"
+          />
+        </div>
+
+        {/* Body */}
+        <textarea
+          className="flex-1 p-4 outline-none resize-none"
+          placeholder="Write your message..."
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        />
+
+      </div>
+
+      {/* ================= DESKTOP COMPOSE ================= */}
+      <div className="hidden lg:flex relative w-[600px] h-[608px] bg-white rounded-t-lg shadow-lg flex-col">
 
         {/* Header */}
         <div className="flex justify-between items-center h-10 px-4 bg-[#333333] rounded-t-lg">
@@ -170,5 +227,6 @@ export default function ComposeModal({ onClose }: { onClose: () => void }) {
         </div>
       </div>
     </div>
+
   );
 }

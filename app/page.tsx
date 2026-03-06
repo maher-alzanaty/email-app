@@ -26,7 +26,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="relative w-[1480] h-[900px] bg-[#F7F8FC] overflow-hidden ">
+      <div className=" relative w-[1480px] h-[900px] bg-[#F7F8FC] overflow-hidden  hidden lg:flex">
         {/* LOGIN FORM */}
         <div
           className="absolute left-[calc(50%-388px/2-354px)] 
@@ -230,6 +230,85 @@ export default function LoginPage() {
           /MC
         </div>
       </div>
+        <div
+          className="relative w-full h-screen flex-col items-center justify-center gap-10  bg-[#F7F8FC] flex lg:hidden"
+        >
+          <div className="flex flex-col gap-3">
+            <h1
+              className={`${roboto.className} text-[32px] font-bold text-[#333333] `}
+              style={{ textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
+            >
+              Welcome Back 👋
+            </h1>
+            <p
+              className={roboto.className}
+              style={{
+                width: "388px",
+                height: "32px",
+                fontStyle: "normal",
+                fontWeight: 400,
+                fontSize: "14px",
+                lineHeight: "16px",
+                display: "flex",
+                alignItems: "center",
+                color: "#333333",
+                flex: "none",
+                order: 1,
+                alignSelf: "stretch",
+                flexGrow: 0,
+              }}
+            >
+              Sign in to access your inbox, manage your messages, and stay
+              connected securely.
+            </p>
+          </div>
+
+          <form
+            onSubmit={handleLogin}
+            className="flex flex-col justify-center items-end gap-6  flex-none order-1 self-stretch w-full px-4"
+          >
+            <div className="flex flex-col gap-2 w-full">
+              <label className="text-gray-600 text-sm">Email</label>
+              <input
+                type="email"
+                placeholder="Example@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#14004D] placeholder-[#777777] text-gray-600 "
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full">
+              <label className="text-gray-600 text-sm">Password</label>
+              <input
+                type="password"
+                placeholder="At least 8 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#14004D] placeholder-[#777777] text-gray-600   "
+                required
+              />
+            </div>
+
+            <div className="flex justify-between text-sm w-full">
+              <label className="flex items-center gap-2 text-gray-600">
+                <input type="checkbox" className="accent-[#14004D]" /> Remember
+                Me
+              </label>
+              <a href="#" className="text-[#14004D] hover:underline">
+                Forgot Password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#14004D] text-white py-3 rounded-xl hover:opacity-90 transition-all"
+            >
+              Login
+            </button>
+          </form>
+        </div>
       {/* ✅ PUT CSS HERE */}
     </>
   );

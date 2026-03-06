@@ -221,46 +221,12 @@ const email =
   return (
     <div className="flex min-h-screen bg-[#F4F5F7] relative">
       {/* LEFT SIDEBAR */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col p-4">
-        <button className="bg-[#14004D] text-white px-4 py-2 rounded-md mb-6 hover:opacity-90 flex justify-center items-center gap-1"
-         onClick={() => setShowCompose(true)}
-        >
-          <Image src="/vector-message.png" width={16} height={16} alt="New Message" />
-          <span>New Message</span>
-        </button>
-        <nav className="flex flex-col gap-2 flex-1 text-gray-700">
-          {sidebarItems.map((item, i) => (
-            <SidebarItem key={i} {...item} />
-          ))}
-          <div className="w-full h-1 bg-gray-100 mt-2"></div>
-          <div className="mt-6 flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-gray-500">Labels</h4>
-            <Image
-              src="https://img.icons8.com/ios-filled/50/000000/plus-math.png"
-              width={16}
-              height={16}
-              alt="Add Label"
-              className="cursor-pointer"
-            />
-          </div>
-          <button className="mt-auto text-red-500 text-sm hover:underline flex items-center gap-2"
-         onClick={() => router.push("/")}
-          >
-            <Image
-              src="/vectorsignout.png"
-              width={16}
-              height={16}
-              alt="Sign Out"
-            />
-            Sign Out
-          </button>
-        </nav>
-      </aside>
+   
 
       {/* MAIN CONTENT */}
       <main className="flex-1 flex flex-col p-6 relative">
         {/* Top Right */}
-        <div className="absolute right-6 top-6 flex items-center gap-3">
+        <div className="absolute right-6 top-6 flex items-center gap-3 hidden lg:flex">
           <Image
             src="https://img.icons8.com/ios-filled/50/606060/settings.png"
             width={24}
@@ -279,7 +245,7 @@ const email =
         </div>
 
         {/* Search Bar */}
-        <div className="flex items-center  py-3 gap-3 h-12 bg-[#0D034A1A] rounded-md px-4    " style={{ width: "calc(100% - 5em)" }}>
+        <div className="flex items-center  py-3 gap-3 h-12 bg-[#0D034A1A] rounded-md px-4 hidden lg:flex" style={{ width: "calc(100% - 5em)" }}>
           <Image
             src="https://img.icons8.com/ios-filled/50/000000/search.png"
             width={16}
@@ -301,7 +267,7 @@ const email =
         <ActionsRow />
 
         {/* Emails & content */}
-        <div className="flex flex-1 mt-4 overflow-hidden gap-4 "  style={{ width: "calc(100% - 3em)" }}>
+        <div  className="flex-1 bg-white rounded-lg shadow overflow-auto mt-5 lg:mt-3 w-full lg:w-[calc(100%-3em)]">
         
 
           {/* Email content panel */}
@@ -461,16 +427,7 @@ const email =
         </div>
 
         {/* Right Sidebar */}
-        <div className="absolute right-6 top-32 flex flex-col gap-4 w-8 h-56 items-start">
-          <HoverIcon icon="https://img.icons8.com/ios-filled/50/1FC16B/calendar.png" bgHover="bg-[#e0f7f2]" />
-          <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
-          <HoverIcon icon="/notes.png" bgHover="bg-[#fff3cd]" />
-          <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
-          <HoverIcon icon="/task.png" bgHover="bg-[#cce0ff]" />
-          <div className="h-px w-8 bg-gray-300 hover:bg-gray-400 transition"></div>
-          <HoverIcon icon="/contact.png" bgHover="bg-[#d1d1d1]" />
-        </div>
-
+  
         {showCompose && <ComposeModal onClose={() => setShowCompose(false)} />}
         
       </main>

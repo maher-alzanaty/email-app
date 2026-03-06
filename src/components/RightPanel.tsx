@@ -8,7 +8,7 @@ export default function RightPanel({
   const renderTasks = () => (
     <div className="flex flex-col items-start gap-6 w-full">
       {/* Header */}
-      <div className="flex justify-between items-center w-full">
+      <div className="flex justify-between items-center w-full sm:bg-gray-100 p-4 rounded">
         <h3 className="text-lg font-semibold text-gray-800">Tasks</h3>
         <button
           onClick={onClose}
@@ -73,7 +73,7 @@ const contactsData = [
 const renderContacts = () => (
   <div className="flex flex-col items-center gap-4 w-full">
     {/* Header */}
-    <div className="flex justify-between items-center w-full">
+    <div className="flex justify-between items-center w-full sm:bg-gray-100 p-4 rounded">
       <h3 className="text-lg font-semibold text-gray-800">Contacts</h3>
       <button
         onClick={onClose}
@@ -117,7 +117,7 @@ const renderContacts = () => (
   const renderCalendar = () => (
   <div className="flex flex-col items-start gap-4 w-full">
     {/* Header */}
-    <div className="flex justify-between items-center w-full">
+    <div className="flex justify-between items-center w-full sm:bg-gray-100 p-4 rounded judtify-center">
       <h3 className="text-lg font-semibold text-gray-800">Calendar</h3>
       <button
         onClick={onClose}
@@ -172,13 +172,15 @@ const renderContacts = () => (
     }
   };
 
-  return (
-    <div
-      className={`w-80 h-screen bg-white border-l border-gray-200 shadow-xl p-6
-                  transform transition-transform duration-300
-                  ${type ? "translate-x-0" : "translate-x-full"}`}
-    >
-      {renderContent()}
-    </div>
-  );
+return (
+  <div
+    className={`h-screen bg-white shadow-xl p-6
+      transform transition-transform duration-300
+      ${type ? "translate-x-0" : "translate-x-full"}
+      fixed top-0 right-0 z-50
+      w-full lg:w-80 border-l lg:border-l border-gray-200`}
+  >
+    {renderContent()}
+  </div>
+);
 }
